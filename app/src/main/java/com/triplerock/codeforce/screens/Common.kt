@@ -1,5 +1,6 @@
 package com.triplerock.codeforce.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -7,7 +8,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
-import androidx.compose.material.icons.filled.BlurCircular
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.EmojiFoodBeverage
 import androidx.compose.material.icons.filled.HealthAndSafety
@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.triplerock.codeforce.data.Room
 import com.triplerock.codeforce.data.RoomType
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+annotation class DarkPreview
 
 @Preview
 @Composable
