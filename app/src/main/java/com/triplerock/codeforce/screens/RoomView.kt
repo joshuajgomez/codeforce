@@ -83,14 +83,14 @@ fun RoomView(
             fontSize = 20.sp,
             color = colorScheme.onBackground.copy(alpha = 0.6f),
             modifier = Modifier.constrainAs(capacityLabelRef) {
-                end.linkTo(parent.end)
+                end.linkTo(parent.end, 10.dp)
                 top.linkTo(iconRef.top, 10.dp)
             })
         Text(text = "${room.count}/${room.capacity}",
             fontSize = 30.sp,
             color = colorScheme.onBackground,
             modifier = Modifier.constrainAs(capacityRef) {
-                end.linkTo(parent.end)
+                end.linkTo(parent.end, 10.dp)
                 top.linkTo(capacityLabelRef.bottom)
             })
         Text(text = roomDescription(room.type),
@@ -103,7 +103,7 @@ fun RoomView(
         AddEmployeeView(modifier = Modifier.constrainAs(addEmployeeRef) {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
-            top.linkTo(descriptionRef.bottom, 30.dp)
+            top.linkTo(descriptionRef.bottom, 60.dp)
         })
         Button(
             onClick = { onEvictButtonClick() },
@@ -134,7 +134,7 @@ fun AddEmployeeView(modifier: Modifier = Modifier) {
                 .padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
             val (textRef, btnRef, availableLabelRef, availableRef) = createRefs()
-            Text(text = "Add developers",
+            Text(text = "add developers",
                 fontSize = 22.sp,
                 modifier = Modifier.constrainAs(textRef) {
                     start.linkTo(parent.start)
@@ -143,9 +143,9 @@ fun AddEmployeeView(modifier: Modifier = Modifier) {
                 start.linkTo(parent.start)
                 top.linkTo(textRef.bottom, 20.dp)
             })
-            Text(text = "Available",
+            Text(text = "available",
                 fontSize = 18.sp,
-                color = colorScheme.onBackground.copy(alpha = 0.7f),
+                color = colorScheme.onBackground.copy(alpha = 0.5f),
                 modifier = Modifier.constrainAs(availableLabelRef) {
                     end.linkTo(parent.end)
                     top.linkTo(btnRef.top)
