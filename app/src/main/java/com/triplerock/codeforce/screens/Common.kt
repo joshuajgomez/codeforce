@@ -34,8 +34,8 @@ fun PreviewRoomIcon() {
 }
 
 @Composable
-fun RoomIcon(modifier: Modifier = Modifier, room: Room = Room()) {
-    val icon = when (room.type) {
+fun RoomIcon(modifier: Modifier = Modifier, roomType: RoomType = RoomType.Empty) {
+    val icon = when (roomType) {
         RoomType.Developer -> Icons.Default.Code
         RoomType.Manager -> Icons.Default.SupervisedUserCircle
         RoomType.HR -> Icons.Default.HealthAndSafety

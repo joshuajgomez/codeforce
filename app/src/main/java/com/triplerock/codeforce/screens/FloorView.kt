@@ -59,7 +59,7 @@ fun RoomBox(
         verticalArrangement = Arrangement.Center,
     ) {
         if (room.type != RoomType.Empty) {
-            RoomIcon(room = room)
+            RoomIcon(roomType = room.type)
         } else {
             Text(text = "${room.x}${room.y}")
         }

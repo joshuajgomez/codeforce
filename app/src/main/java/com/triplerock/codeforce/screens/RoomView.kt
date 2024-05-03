@@ -71,7 +71,7 @@ fun RoomView(
                 top.linkTo(closeIconRef.bottom, 20.dp)
             }
             .size(100.dp),
-            room = room)
+            roomType = room.type)
         Text(text = "${room.type}'s room",
             fontSize = 25.sp,
             color = colorScheme.primary,
