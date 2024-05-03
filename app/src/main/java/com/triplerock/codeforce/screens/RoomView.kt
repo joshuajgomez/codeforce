@@ -18,11 +18,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -37,62 +39,54 @@ import com.triplerock.codeforce.ui.theme.CodeForceTheme
 @Composable
 fun PreviewRoomView() {
     CodeForceTheme {
-        RoomView()
+        RoomViewContainer()
     }
 }
 
 @Composable
-fun RoomView(
+fun RoomViewContainer(
     room: Room = Room(RoomType.Developer),
     onEvictButtonClick: () -> Unit = {}
 ) {
+    Scaffold(
+        topBar = { TitleBar("${room.type}'s room") },
+    ) {
+        RoomView(
+            modifier = Modifier.padding(it),
+            room, onEvictButtonClick
+        )
+    }
+}
+
+@Composable
+private fun RoomView(
+    modifier: Modifier,
+    room: Room,
+    onEvictButtonClick: () -> Unit
+) {
     ConstraintLayout(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp, vertical = 20.dp)
+            .padding(horizontal = 20.dp)
     ) {
         val (
-            closeIconRef,
             iconRef,
-            nameRef,
             capacityRef,
-            capacityLabelRef,
             descriptionRef,
             addEmployeeRef,
             evictBtnRef
         ) = createRefs()
-        CloseIcon(modifier = Modifier.constrainAs(closeIconRef) {
-            start.linkTo(parent.start)
-            top.linkTo(parent.top)
-        }) {}
         RoomIcon(modifier = Modifier
             .constrainAs(iconRef) {
                 start.linkTo(parent.start)
-                top.linkTo(closeIconRef.bottom, 20.dp)
+                top.linkTo(parent.top)
             }
             .size(100.dp),
             roomType = room.type)
-        Text(text = "${room.type}'s room",
-            fontSize = 25.sp,
-            color = colorScheme.primary,
-            modifier = Modifier.constrainAs(nameRef) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            })
-        Text(text = "capacity",
-            fontSize = 20.sp,
-            color = colorScheme.onBackground.copy(alpha = 0.6f),
-            modifier = Modifier.constrainAs(capacityLabelRef) {
-                end.linkTo(parent.end, 10.dp)
-                top.linkTo(iconRef.top, 10.dp)
-            })
-        Text(text = "${room.count}/${room.capacity}",
-            fontSize = 30.sp,
-            color = colorScheme.onBackground,
-            modifier = Modifier.constrainAs(capacityRef) {
-                end.linkTo(parent.end, 10.dp)
-                top.linkTo(capacityLabelRef.bottom)
-            })
+        LabelValue(Modifier.constrainAs(capacityRef) {
+            end.linkTo(parent.end, 10.dp)
+            top.linkTo(iconRef.top)
+        }, "capacity", "${room.count}/${room.capacity}")
         Text(text = roomDescription(room.type),
             fontSize = 20.sp,
             color = colorScheme.onBackground,
@@ -182,7 +176,7 @@ fun NumberSelector(
                 .background(colorScheme.primary, CircleShape)
                 .padding(5.dp)
         )
-        Text(text = "3", fontSize = (iconSize.value-10).sp)
+        Text(text = "3", fontSize = (iconSize.value - 10).sp)
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = null,

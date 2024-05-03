@@ -1,22 +1,33 @@
 package com.triplerock.codeforce.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.triplerock.codeforce.data.RoomType
+import com.triplerock.codeforce.data.costOf
+import com.triplerock.codeforce.data.displayCost
 import com.triplerock.codeforce.data.maxCapacityOf
 import com.triplerock.codeforce.data.roomDescription
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
@@ -29,29 +40,34 @@ fun PreviewOccupyRoom() {
     }
 }
 
+val availableRoomTypes = RoomType.entries.filter {
+    it != RoomType.Empty
+}
+
 @Composable
-fun OccupyRoom() {
+fun OccupyRoom(
+    roomTypes: List<RoomType> = availableRoomTypes
+) {
     Column(
         modifier = Modifier.padding(
             horizontal = 10.dp,
             vertical = 20.dp
         )
     ) {
-        CloseIcon {
-
+        Scaffold(topBar = { TitleBar("Select type of room you want to add here") })
+        {
+            RoomTypeList(Modifier.padding(it), roomTypes)
         }
-        RoomTypeList()
     }
 }
 
 @Composable
 fun RoomTypeList(
-    roomTypes: List<RoomType> = RoomType.entries.filter {
-        it != RoomType.Empty
-    }
+    modifier: Modifier,
+    roomTypes: List<RoomType>
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
     ) {
@@ -68,7 +84,7 @@ fun RoomCard(roomType: RoomType, onClick: () -> Unit = {}) {
             modifier = Modifier
                 .padding(20.dp)
         ) {
-            val (iconRef, typeRef, descRef, btnRef, capacityLabelRef, capacityRef) = createRefs()
+            val (iconRef, typeRef, descRef, btnRef, capacityRef, costRef) = createRefs()
             RoomIcon(
                 modifier = Modifier
                     .size(70.dp)
@@ -109,18 +125,36 @@ fun RoomCard(roomType: RoomType, onClick: () -> Unit = {}) {
             ) {
                 Text(text = "select", fontSize = 20.sp)
             }
-            Text(text = "capacity",
-                color = colorScheme.onBackground.copy(alpha = 0.5f),
-                modifier = Modifier.constrainAs(capacityLabelRef) {
+
+            PriceTag(
+                modifier = Modifier.constrainAs(costRef) {
                     end.linkTo(parent.end)
-                    top.linkTo(parent.top, 10.dp)
-                })
-            Text(text = maxCapacityOf(roomType).toString(),
-                fontSize = 25.sp,
-                modifier = Modifier.constrainAs(capacityRef) {
-                    end.linkTo(parent.end)
-                    top.linkTo(capacityLabelRef.bottom)
-                })
+                    top.linkTo(parent.top)
+                },
+                text = costOf(roomType).displayCost()
+            )
+
+            LabelValue(modifier = Modifier.constrainAs(capacityRef) {
+                end.linkTo(parent.end, 10.dp)
+                top.linkTo(costRef.bottom, 10.dp)
+            }, "capacity", maxCapacityOf(roomType).toString())
+
         }
     }
 }
+
+@Composable
+fun PriceTag(modifier: Modifier, text: String) {
+    Text(
+        text = text,
+        fontSize = 25.sp,
+        modifier = modifier
+            .background(
+                colorScheme.primaryContainer,
+                RoundedCornerShape(20.dp)
+            )
+            .padding(horizontal = 15.dp, vertical = 5.dp)
+    )
+}
+
+

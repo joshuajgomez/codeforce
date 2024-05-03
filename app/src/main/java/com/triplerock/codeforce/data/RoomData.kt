@@ -26,13 +26,39 @@ fun maxCapacityOf(roomType: RoomType) = when (roomType) {
     RoomType.Empty -> 0
 }
 
+enum class Cost(val cost: Int) {
+    Developer(40000),
+    Manager(15000),
+    HR(10000),
+    Sales(10000),
+    Cafeteria(5000),
+}
+
+fun costOf(roomType: RoomType) = when (roomType) {
+    RoomType.Developer -> Cost.Developer.cost
+    RoomType.Manager -> Cost.Manager.cost
+    RoomType.HR -> Cost.HR.cost
+    RoomType.Sales -> Cost.Sales.cost
+    RoomType.Cafeteria -> Cost.Cafeteria.cost
+    RoomType.Empty -> 0
+}
+
+fun Int.displayCost(): String {
+    return "₹${"%,d".format(this)}"
+}
+
 fun roomDescription(roomType: RoomType): String {
     return when (roomType) {
         RoomType.Developer -> "Room for developers with max capacity of ${maxCapacityOf(roomType)}. Room is equipped with Laptops, Desktops, Hardwares, Cantools etc"
         RoomType.Manager -> "Room for managers with max capacity of ${maxCapacityOf(roomType)}. Room is equipped with Laptops, Desktops, Hardwares, Cantools etc"
         RoomType.HR -> "Room for HR reps with max capacity of ${maxCapacityOf(roomType)}. Room is equipped with Laptops, Records and game toys"
         RoomType.Sales -> "Room for Sales executives with max capacity of ${maxCapacityOf(roomType)}. Room is equipped with Laptops"
-        RoomType.Cafeteria -> "Room for employees to relax and eat. There will be house keeps with max capacity of ${maxCapacityOf(roomType)}. Room is equipped with Ovens, Sinks, Fridge, Vending machines"
+        RoomType.Cafeteria -> "Room for employees to relax and eat. There will be house keeps with max capacity of ${
+            maxCapacityOf(
+                roomType
+            )
+        }. Room is equipped with Ovens, Sinks, Fridge, Vending machines"
+
         else -> "Empty room"
     }
 }
