@@ -127,7 +127,7 @@ fun AddEmployeeView(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            val (textRef, btnRef, availableLabelRef, availableRef) = createRefs()
+            val (textRef, btnRef, availableRef) = createRefs()
             Text(text = "add developers",
                 fontSize = 22.sp,
                 modifier = Modifier.constrainAs(textRef) {
@@ -137,19 +137,10 @@ fun AddEmployeeView(modifier: Modifier = Modifier) {
                 start.linkTo(parent.start)
                 top.linkTo(textRef.bottom, 20.dp)
             })
-            Text(text = "available",
-                fontSize = 18.sp,
-                color = colorScheme.onBackground.copy(alpha = 0.5f),
-                modifier = Modifier.constrainAs(availableLabelRef) {
-                    end.linkTo(parent.end)
-                    top.linkTo(btnRef.top)
-                })
-            Text(text = "6/36",
-                fontSize = 25.sp,
-                modifier = Modifier.constrainAs(availableRef) {
-                    end.linkTo(parent.end)
-                    top.linkTo(availableLabelRef.bottom)
-                })
+            LabelValue(modifier = Modifier.constrainAs(availableRef) {
+                end.linkTo(parent.end)
+                top.linkTo(btnRef.top)
+            }, "available", "6/36")
         }
     }
 }
