@@ -78,11 +78,11 @@ fun LabelValue(
         Text(
             text = label,
             color = colorScheme.onBackground.copy(alpha = 0.5f),
-            fontSize = 18.sp,
+            fontSize = 15.sp,
         )
         Text(
             text = value,
-            fontSize = 22.sp,
+            fontSize = 18.sp,
             color = colorScheme.onBackground
         )
     }
