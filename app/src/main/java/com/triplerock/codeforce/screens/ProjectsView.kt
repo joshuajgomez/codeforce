@@ -136,11 +136,11 @@ private fun projectCardConstraints(): ConstraintSet {
         }
         constrain(state) {
             end.linkTo(parent.end)
-            top.linkTo(parent.top, 10.dp)
+            top.linkTo(parent.top)
         }
         constrain(reward) {
             start.linkTo(projectName.start)
-            top.linkTo(projectName.bottom, 15.dp)
+            top.linkTo(projectName.bottom, 10.dp)
         }
     }
 }
@@ -148,11 +148,9 @@ private fun projectCardConstraints(): ConstraintSet {
 private fun expandedProjectCardConstraints(): ConstraintSet {
     return ConstraintSet {
         val customerName = createRefFor("customer_name")
-        val duration = createRefFor("duration")
         val features = createRefFor("features")
         val description = createRefFor("description")
         val button = createRefFor("button")
-        val engineers = createRefFor("engineers")
 
         // expanded ui
         constrain(customerName) {
@@ -172,14 +170,6 @@ private fun expandedProjectCardConstraints(): ConstraintSet {
             end.linkTo(parent.end)
             bottom.linkTo(parent.bottom)
             top.linkTo(description.bottom, 30.dp)
-        }
-        constrain(duration) {
-            start.linkTo(customerName.end, 30.dp)
-            top.linkTo(customerName.top)
-        }
-        constrain(engineers) {
-            start.linkTo(duration.end, 30.dp)
-            top.linkTo(customerName.top)
         }
     }
 }
@@ -249,24 +239,15 @@ fun ProjectDetail(
             .fillMaxWidth()
             .padding(top = 20.dp)
     ) {
-        LabelValue(
-            modifier = Modifier.layoutId("customer_name"),
-            label = "customer",
-            value = project.customer.name,
-            reverseAlignment = true
-        )
-        LabelValue(
-            modifier = Modifier.layoutId("duration"),
-            label = "duration",
-            value = "${project.totalCw()} CWs",
-            reverseAlignment = true
-        )
 
-        LabelValue(
-            modifier = Modifier.layoutId("engineers"),
-            label = "engineers",
-            value = "27 pax",
-            reverseAlignment = true
+        InfoBox(
+            modifier =
+            Modifier.layoutId("customer_name"),
+            hashMapOf(
+                "customer" to project.customer.name,
+                "duration" to "${project.totalCw()} CW",
+                "engineers" to "27 pax",
+            )
         )
 
         FeatureTags(
@@ -328,70 +309,6 @@ fun State(modifier: Modifier = Modifier, project: Project) {
             .padding(horizontal = 5.dp, vertical = 3.dp),
         text = text
     )
-}
-
-@Composable
-fun ProjectCardExpanded(
-    project: Project = sampleProject(),
-    onSubmitClick: () -> Unit = {}
-) {
-    Card {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 15.dp, horizontal = 15.dp)
-        ) {
-            val (iconRef,
-                nameRef,
-                customerRef,
-                rewardRef,
-
-                featureRef,
-                descRef,
-                totalCwRef,
-                btnRef
-            ) = createRefs()
-            Image(
-                painter = painterResource(id = project.customer.iconRes),
-                contentDescription = null,
-                modifier = Modifier
-                    .constrainAs(iconRef) {
-                        start.linkTo(parent.start)
-                        top.linkTo(parent.top)
-                    }
-                    .size(80.dp)
-                    .background(colorScheme.onPrimary, RoundedCornerShape(10.dp))
-            )
-
-            Text(text = project.customer.name,
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.constrainAs(customerRef) {
-                    start.linkTo(iconRef.end, 10.dp)
-                    top.linkTo(iconRef.top)
-                })
-
-            LabelValue(modifier = Modifier.constrainAs(nameRef) {
-                end.linkTo(parent.end)
-                top.linkTo(parent.top)
-            }, "project", project.name)
-
-            Text(
-                text = project.reward.displayCost(),
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .constrainAs(rewardRef) {
-                        start.linkTo(iconRef.end, 10.dp)
-                        top.linkTo(customerRef.bottom, 10.dp)
-                    }
-                    .background(
-                        colorScheme.primaryContainer,
-                        RoundedCornerShape(20.dp)
-                    )
-                    .padding(horizontal = 10.dp, vertical = 5.dp)
-            )
-        }
-    }
 }
 
 //@DarkPreview

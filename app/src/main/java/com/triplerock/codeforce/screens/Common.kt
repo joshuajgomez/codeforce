@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.layoutId
 import com.triplerock.codeforce.data.Room
 import com.triplerock.codeforce.data.RoomType
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
@@ -73,12 +77,10 @@ fun LabelValue(
     modifier: Modifier = Modifier,
     label: String = "label",
     value: String = "value",
-    reverseAlignment: Boolean = false
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = if (reverseAlignment)
-            Alignment.Start else Alignment.End
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = label,
@@ -115,5 +117,31 @@ fun TitleBar(
             color = colorScheme.onBackground,
             textAlign = TextAlign.End
         )
+    }
+}
+
+@DarkPreview
+@Composable
+fun InfoBox(
+    modifier: Modifier = Modifier,
+    keyValue: HashMap<String, String> = sampleKeyValue
+) {
+    LazyRow(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = modifier
+            .layoutId("capacity")
+            .background(
+                colorScheme.background.copy(alpha = 0.3f),
+                RoundedCornerShape(8.dp)
+            )
+            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .fillMaxWidth(),
+    ) {
+        items(keyValue.keys.toList()) {
+            LabelValue(
+                label = it,
+                value = keyValue[it].toString(),
+            )
+        }
     }
 }
