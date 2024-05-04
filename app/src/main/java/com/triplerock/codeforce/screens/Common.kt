@@ -72,12 +72,17 @@ fun RoomIcon(modifier: Modifier = Modifier, roomType: RoomType = RoomType.Empty)
 fun LabelValue(
     modifier: Modifier = Modifier,
     label: String = "label",
-    value: String = "value"
+    value: String = "value",
+    reverseAlignment: Boolean = false
 ) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.End) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = if (reverseAlignment)
+            Alignment.Start else Alignment.End
+    ) {
         Text(
             text = label,
-            color = colorScheme.onBackground.copy(alpha = 0.5f),
+            color = colorScheme.onBackground.copy(alpha = 0.7f),
             fontSize = 15.sp,
         )
         Text(

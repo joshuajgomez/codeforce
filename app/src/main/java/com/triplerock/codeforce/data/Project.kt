@@ -42,7 +42,7 @@ enum class FeatureState {
 data class FeatureRequirement(
     val feature: Feature,
     val totalCw: Int,
-    val spentCw: Int = 0,
+    var spentCw: Int = 0,
     val state: FeatureState = FeatureState.NEW,
 )
 
@@ -51,13 +51,21 @@ data class Project(
     val customer: Customer,
     val featureRequirements: List<FeatureRequirement>,
     val reward: Int,
-    val state: ProjectState = ProjectState.NEW,
+    var state: ProjectState = ProjectState.NEW,
 )
 
 fun Project.totalCw(): Int {
     var cw = 0
     featureRequirements.forEach {
         cw += it.totalCw
+    }
+    return cw
+}
+
+fun Project.completedCw(): Int {
+    var cw = 0
+    featureRequirements.forEach {
+        cw += it.spentCw
     }
     return cw
 }
