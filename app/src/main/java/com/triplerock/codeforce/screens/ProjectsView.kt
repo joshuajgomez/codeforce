@@ -181,7 +181,7 @@ fun ProjectCard(
     onSubmitClick: () -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(isExpanded) }
-    Card {
+    CustomCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -207,12 +207,14 @@ fun ProjectCard(
                 Text(
                     text = project.reward.displayCost(),
                     fontSize = 20.sp,
+                    color = colorScheme.onBackground,
                     modifier = Modifier
                         .layoutId("reward")
                 )
                 Text(
                     modifier = Modifier.layoutId("project_name"),
                     text = project.name,
+                    color = colorScheme.onBackground,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -256,6 +258,7 @@ fun ProjectDetail(
         )
         Text(
             text = roomDescription(RoomType.Developer),
+            color = colorScheme.onBackground,
             modifier = Modifier
                 .layoutId("description")
         )

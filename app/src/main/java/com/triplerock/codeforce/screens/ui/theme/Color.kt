@@ -12,6 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 val White10 = Color(0xFF4CAF50)
 val Green40 = Color(0xFFFFFFFF)
+val Black10 = Color(0xFF2B2B2B)
+val Black20 = Color(0xFF3A3A3A)
 val Blue40 = Color(0xFF2196F3)
 val Purple20 = Color(0xFF6650a4)
 val Orange10 = Color(0xFFFF9800)

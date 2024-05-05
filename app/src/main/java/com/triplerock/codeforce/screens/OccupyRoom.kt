@@ -2,9 +2,7 @@ package com.triplerock.codeforce.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,16 +48,9 @@ val availableRoomTypes = RoomType.entries.filter {
 fun OccupyRoom(
     roomTypes: List<RoomType> = availableRoomTypes
 ) {
-    Column(
-        modifier = Modifier.padding(
-            horizontal = 10.dp,
-            vertical = 20.dp
-        )
-    ) {
-        Scaffold(topBar = { TitleBar("Select type of room you want to add here") })
-        {
-            RoomTypeList(Modifier.padding(it), roomTypes)
-        }
+    Scaffold(topBar = { TitleBar("Select room type") })
+    {
+        RoomTypeList(Modifier.padding(it), roomTypes)
     }
 }
 
@@ -126,7 +117,7 @@ fun RoomCard(
     roomType: RoomType = RoomType.Developer,
     onClick: () -> Unit = {},
 ) {
-    Card(modifier = Modifier.padding(5.dp)) {
+    CustomCard(modifier = Modifier.padding(5.dp)) {
         var expanded by remember { mutableStateOf(false) }
         ConstraintLayout(
             constraintSet = roomCardConstraintSet(if (expanded) 20.dp else 0.dp),
@@ -138,7 +129,7 @@ fun RoomCard(
             RoomIcon(
                 modifier = Modifier
                     .layoutId("icon")
-                    .size(if (expanded) 80.dp else 50.dp),
+                    .size(if (expanded) 60.dp else 40.dp),
                 roomType = roomType
             )
             Text(
