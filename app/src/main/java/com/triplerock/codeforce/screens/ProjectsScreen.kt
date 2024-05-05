@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -53,21 +51,20 @@ import com.triplerock.codeforce.ui.theme.CodeForceTheme
 import com.triplerock.codeforce.ui.theme.Gray10
 import com.triplerock.codeforce.ui.theme.Green40
 import com.triplerock.codeforce.ui.theme.Orange10
-import com.triplerock.codeforce.ui.theme.Purple20
 import com.triplerock.codeforce.ui.theme.Teal10
 import com.triplerock.codeforce.ui.theme.White10
 
-//@DarkPreview
+@DarkPreview
 @Composable
-fun PreviewProjectsView() {
+fun PreviewProjectsScreen() {
     CodeForceTheme {
-        ProjectsView()
+        ProjectsScreen()
     }
 }
 
 
 @Composable
-fun ProjectsView() {
+fun ProjectsScreen() {
     Scaffold(topBar = { TitleBar("Current projects") }) {
         AllProjects(Modifier.padding(it))
     }

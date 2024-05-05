@@ -1,20 +1,14 @@
 package com.triplerock.codeforce.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -23,10 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -37,16 +28,16 @@ import com.triplerock.codeforce.ui.theme.CodeForceTheme
 
 @DarkPreview
 @Composable
-fun PreviewRoomView() {
+fun PreviewRoomsScreen() {
     CodeForceTheme {
-        RoomViewContainer()
+        RoomsScreen()
     }
 }
 
 @Composable
-fun RoomViewContainer(
+fun RoomsScreen(
     room: Room = Room(RoomType.Developer),
-    onEvictButtonClick: () -> Unit = {}
+    onEvictButtonClick: () -> Unit = {},
 ) {
     Scaffold(
         topBar = { TitleBar("${room.type}'s room") },
@@ -62,7 +53,7 @@ fun RoomViewContainer(
 private fun RoomView(
     modifier: Modifier,
     room: Room,
-    onEvictButtonClick: () -> Unit
+    onEvictButtonClick: () -> Unit,
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -74,7 +65,7 @@ private fun RoomView(
             capacityRef,
             descriptionRef,
             addEmployeeRef,
-            evictBtnRef
+            evictBtnRef,
         ) = createRefs()
         RoomIcon(modifier = Modifier
             .constrainAs(iconRef) {
@@ -94,19 +85,23 @@ private fun RoomView(
                 start.linkTo(parent.start)
                 top.linkTo(iconRef.bottom, 30.dp)
             })
-        AddEmployeeView(modifier = Modifier.constrainAs(addEmployeeRef) {
+        AddEmployeeCard(modifier = Modifier.constrainAs(addEmployeeRef) {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             top.linkTo(descriptionRef.bottom, 60.dp)
         })
-        Button(
+        ElevatedButton(
             onClick = { onEvictButtonClick() },
             modifier = Modifier.constrainAs(evictBtnRef) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 bottom.linkTo(parent.bottom, 30.dp)
             }) {
-            Text(text = "EVICT ROOM", fontSize = 20.sp)
+            Text(
+                text = "Evict Room",
+                fontSize = 20.sp,
+                color = colorScheme.errorContainer
+            )
         }
     }
 }
@@ -115,68 +110,33 @@ private fun RoomView(
 @Composable
 fun PreviewAddEmployeeView(modifier: Modifier = Modifier) {
     CodeForceTheme {
-        AddEmployeeView()
+        AddEmployeeCard()
     }
 }
 
 @Composable
-fun AddEmployeeView(modifier: Modifier = Modifier) {
+fun AddEmployeeCard(modifier: Modifier = Modifier) {
     CustomCard(modifier = modifier) {
-        ConstraintLayout(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 10.dp)
+                .padding(horizontal = 20.dp, vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val (textRef, btnRef, availableRef) = createRefs()
-            Text(text = "add developers",
+            Text(
+                text = "add developers",
                 fontSize = 22.sp,
-                modifier = Modifier.constrainAs(textRef) {
-                    start.linkTo(parent.start)
-                })
-            NumberSelector(modifier = Modifier.constrainAs(btnRef) {
-                start.linkTo(parent.start)
-                top.linkTo(textRef.bottom, 20.dp)
-            })
-            LabelValue(modifier = Modifier.constrainAs(availableRef) {
-                end.linkTo(parent.end)
-                top.linkTo(btnRef.top)
-            }, "available", "6/36")
+                fontWeight = FontWeight.Bold,
+            )
+            InfoBox(
+                keyValue = hashMapOf(
+                    "capacity" to "3/4",
+                    "available" to "6/36",
+                )
+            )
+            NumberSelector()
         }
-    }
-}
-
-@DarkPreview
-@Composable
-fun NumberSelector(
-    modifier: Modifier = Modifier,
-    onAddPress: () -> Unit = {},
-    onMinusPress: () -> Unit = {},
-    iconSize: Dp = 50.dp
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Default.Remove,
-            contentDescription = null,
-            tint = colorScheme.onPrimary,
-            modifier = Modifier
-                .size(iconSize)
-                .background(colorScheme.primary, CircleShape)
-                .padding(5.dp)
-        )
-        Text(text = "3", fontSize = (iconSize.value - 10).sp)
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = null,
-            tint = colorScheme.onPrimary,
-            modifier = Modifier
-                .size(iconSize)
-                .background(colorScheme.primary, CircleShape)
-                .padding(5.dp)
-        )
     }
 }
 
