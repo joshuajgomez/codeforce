@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CodeForce"
+rootProject.name = "codeforce"
 include(":app")
  
