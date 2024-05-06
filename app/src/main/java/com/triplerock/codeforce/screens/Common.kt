@@ -167,10 +167,9 @@ fun InfoBox(
     }
 }
 
-// @DarkPreview
+@DarkPreview
 @Composable
-fun PreviewCustomCard(
-) {
+fun PreviewCustomCard() {
     CodeForceTheme {
         Surface(
             modifier = Modifier
@@ -191,9 +190,11 @@ fun PreviewCustomCard(
 fun CfCard(
     modifier: Modifier = Modifier,
     color: Color = Black10,
+    radius: Dp = 10.dp,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
     Card(
+        shape = RoundedCornerShape(radius),
         content = content,
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -277,7 +278,7 @@ fun CommonBody(
     )
 }
 
-@DarkPreview
+//@DarkPreview
 @Composable
 fun PreviewLargeButton() {
     CodeForceTheme {
@@ -294,7 +295,7 @@ fun PreviewLargeButton() {
 @Composable
 fun CfLargeErrorButton(text: String = "Error") {
     CfLargeButton(
-        text,
+        text = text,
         textColor = colorScheme.onErrorContainer,
         backgroundColor = colorScheme.errorContainer,
     )
@@ -302,6 +303,7 @@ fun CfLargeErrorButton(text: String = "Error") {
 
 @Composable
 fun CfLargeButton(
+    modifier: Modifier = Modifier,
     text: String = "Click",
     textColor: Color = colorScheme.primary,
     backgroundColor: Color = colorScheme.primaryContainer,
@@ -309,7 +311,7 @@ fun CfLargeButton(
 ) {
     ElevatedButton(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(60.dp),
         shape = RoundedCornerShape(10.dp),

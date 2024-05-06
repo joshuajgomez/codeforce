@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,8 +23,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,15 +43,16 @@ import com.triplerock.codeforce.data.displayCost
 import com.triplerock.codeforce.data.roomDescription
 import com.triplerock.codeforce.data.sampleFeatureList
 import com.triplerock.codeforce.data.sampleProjectNames
+import com.triplerock.codeforce.data.sampleProjects
 import com.triplerock.codeforce.data.sampleRewards
 import com.triplerock.codeforce.data.totalCw
 import com.triplerock.codeforce.screens.ui.theme.Blue40
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
 import com.triplerock.codeforce.screens.ui.theme.Gray10
-import com.triplerock.codeforce.screens.ui.theme.Green40
+import com.triplerock.codeforce.screens.ui.theme.Green50
 import com.triplerock.codeforce.screens.ui.theme.Orange10
-import com.triplerock.codeforce.screens.ui.theme.Teal10
-import com.triplerock.codeforce.screens.ui.theme.White10
+import com.triplerock.codeforce.screens.ui.theme.Purple20
+import com.triplerock.codeforce.screens.ui.theme.Red10
 
 @DarkPreview
 @Composable
@@ -62,11 +62,23 @@ fun PreviewProjectsScreen() {
     }
 }
 
-
 @Composable
 fun ProjectsScreen() {
-    Scaffold(topBar = { TitleBar("Current projects") }) {
-        AllProjects(Modifier.padding(it))
+    Scaffold(topBar = { TitleBar("Projects") }) {
+        ProjectsView(Modifier.padding(it))
+    }
+}
+
+@Composable
+fun ProjectsView(modifier: Modifier) {
+    Column(modifier) {
+        Column(
+            horizontalAlignment = Alignment.End,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            CfDropDownButton(text = "All")
+        }
+        ProjectsList()
     }
 }
 
@@ -84,26 +96,40 @@ fun sampleProject() = Project(
 )
 
 @Composable
-fun AllProjects(
+fun ProjectsList(
     modifier: Modifier = Modifier,
-    projects: List<Project> = listOf(
-        sampleProject(),
-        sampleProject(),
-        sampleProject(),
-        sampleProject(),
-    ),
+    projects: List<Project> = sampleProjects(),
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = modifier.padding(horizontal = 10.dp)
     ) {
-        items(projects) {
-            ProjectCard(it)
-        }
+        projects
+            .sortedBy { it.state }
+            .groupBy { it.state }
+            .forEach { (projectState, list) ->
+                item {
+                    ProjectCardHeader(projectState, list.size)
+                }
+                items(list) {
+                    ProjectCard(it)
+                }
+            }
     }
 }
 
-@DarkPreview
+@Composable
+fun ProjectCardHeader(
+    projectState: ProjectState = ProjectState.COMPLETE,
+    count: Int = 5
+) {
+    Text(
+        text = "${projectState.name} ($count)",
+        modifier = Modifier.padding(top = 20.dp, start = 10.dp)
+    )
+}
+
+//@DarkPreview
 @Composable
 fun PreviewProjectCards(
 ) {
@@ -178,7 +204,7 @@ fun ProjectCard(
     onSubmitClick: () -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(isExpanded) }
-    CfCard {
+    CfCard(radius = 5.dp) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -194,7 +220,7 @@ fun ProjectCard(
                     contentDescription = null,
                     modifier = Modifier
                         .layoutId("customer_logo")
-                        .size(80.dp)
+                        .size(60.dp)
                         .background(colorScheme.onPrimary, RoundedCornerShape(10.dp))
                 )
                 State(
@@ -203,16 +229,14 @@ fun ProjectCard(
                 )
                 Text(
                     text = project.reward.displayCost(),
-                    fontSize = 20.sp,
                     color = colorScheme.onBackground,
-                    modifier = Modifier
-                        .layoutId("reward")
+                    modifier = Modifier.layoutId("reward")
                 )
                 Text(
                     modifier = Modifier.layoutId("project_name"),
                     text = project.name,
                     color = colorScheme.onBackground,
-                    fontSize = 25.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -250,23 +274,18 @@ fun ProjectDetail(
         )
 
         FeatureTags(
-            modifier = Modifier
-                .layoutId("features")
+            modifier = Modifier.layoutId("features")
         )
         Text(
             text = roomDescription(RoomType.Developer),
             color = colorScheme.onBackground,
-            modifier = Modifier
-                .layoutId("description")
+            modifier = Modifier.layoutId("description")
         )
-        Button(
+        CfLargeButton(
+            text = "Submit quote",
             onClick = { onSubmitClick() },
-            modifier = Modifier
-                .layoutId("button")
-                .fillMaxWidth()
-        ) {
-            Text(text = "Submit quote", fontSize = 20.sp)
-        }
+            modifier = Modifier.layoutId("button")
+        )
     }
 }
 
@@ -274,11 +293,13 @@ fun ProjectDetail(
 @Composable
 fun PreviewState() {
     CodeForceTheme {
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            ProjectState.entries.forEach {
-                State(project = sampleProject().apply {
-                    state = it
-                })
+        CfCard {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                ProjectState.entries.forEach {
+                    State(project = sampleProject().apply {
+                        state = it
+                    })
+                }
             }
         }
     }
@@ -291,23 +312,23 @@ fun State(modifier: Modifier = Modifier, project: Project) {
         text += " ${project.completedCw()}/${project.totalCw()}"
 
     val backgroundColor = when (project.state) {
-        ProjectState.NEW -> White10
+        ProjectState.NEW -> Red10
         ProjectState.QUOTED -> Blue40
-        ProjectState.AWARDED -> Green40
+        ProjectState.AWARDED -> Green50
         ProjectState.ONGOING -> Orange10
-        ProjectState.COMPLETE -> Teal10
+        ProjectState.COMPLETE -> Purple20
         ProjectState.LOST -> Gray10
     }
 
     Text(
-        color = Color.Black,
+        color = colorScheme.onBackground,
         modifier = modifier
             .background(
                 backgroundColor,
                 RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 5.dp, vertical = 3.dp),
-        text = text
+            .padding(horizontal = 10.dp, vertical = 3.dp),
+        text = text,
     )
 }
 

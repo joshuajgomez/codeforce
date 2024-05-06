@@ -1,6 +1,8 @@
 package com.triplerock.codeforce.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,13 +20,15 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
 import com.triplerock.codeforce.data.Event
 import com.triplerock.codeforce.data.EventType
+import com.triplerock.codeforce.screens.ui.theme.Black10
+import com.triplerock.codeforce.screens.ui.theme.Black20
 import com.triplerock.codeforce.screens.ui.theme.Blue40
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
 import com.triplerock.codeforce.screens.ui.theme.Gray10
 import com.triplerock.codeforce.screens.ui.theme.Green40
 import com.triplerock.codeforce.screens.ui.theme.Orange10
 
-@DarkPreview
+//@DarkPreview
 @Composable
 fun PreviewEventsView() {
     CodeForceTheme {
@@ -49,10 +53,22 @@ fun PreviewEventsViewShort() {
 
 @Composable
 fun EventsViewShort() {
-    CfCard(
-        modifier = Modifier.height(150.dp)
+    Box(
+        modifier = Modifier
+            .background(Black10)
+            .padding(
+                horizontal = 15.dp,
+                vertical = 15.dp
+            )
+            .fillMaxWidth()
     ) {
-        EventsList()
+        EventItem(
+            Event(
+                EventType.EmployeeJoined,
+                "Rahul Siva joined ${sampleProject().name} project",
+                System.currentTimeMillis()
+            )
+        )
     }
 }
 
@@ -92,7 +108,7 @@ val eventViewConstraints = ConstraintSet {
     }
 
     constrain(message) {
-        top.linkTo(event.bottom)
+        top.linkTo(event.bottom, 5.dp)
         start.linkTo(parent.start)
     }
 }
@@ -106,7 +122,7 @@ fun EventItem(event: Event) {
             else if (event.type.name.startsWith("Project")) Blue40
             else Gray10
         Text(
-            text = "[ ${event.type} ]",
+            text = "${event.type}",
             modifier = Modifier.layoutId("event"),
             fontWeight = FontWeight.Bold,
             color = color

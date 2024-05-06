@@ -75,7 +75,7 @@ fun CandidateListContainer(modifier: Modifier) {
         )
         Spacer(modifier = Modifier.height(10.dp))
 
-        CfLargeButton("Hire")
+        CfLargeButton(text = "Hire")
 
         CfErrorButton(text = "Reject all")
     }

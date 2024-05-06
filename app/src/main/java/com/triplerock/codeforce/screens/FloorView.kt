@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -29,16 +30,16 @@ private fun PreviewFloorView() {
 
 @Composable
 fun FloorView(rooms: List<Room> = sampleRooms) {
-    CfCard(
-        modifier = Modifier,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier.size(350.dp)
         ) {
             Column(
-                Modifier
-                    .padding(10.dp)
+                Modifier.padding(10.dp)
             ) {
                 repeat(5) { x ->
                     Row {
