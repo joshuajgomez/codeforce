@@ -17,10 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import com.triplerock.codeforce.data.Room
 import com.triplerock.codeforce.data.RoomType
 import com.triplerock.codeforce.data.roomDescription
@@ -42,12 +44,56 @@ fun RoomsScreen(
     Scaffold(
         topBar = { TitleBar("${room.type}'s room") },
     ) {
-        CommonBody(modifier = Modifier.padding(it)) {
-            RoomView(
-                room = room,
-                onEvictButtonClick = onEvictButtonClick
-            )
-        }
+        RoomView(
+            modifier = Modifier.padding(it),
+            room = room,
+            onEvictButtonClick = onEvictButtonClick
+        )
+    }
+}
+
+enum class LayoutId {
+    Icon,
+    Feature,
+    Capacity,
+    Description,
+    AddEmployeeCard,
+    Button,
+}
+
+private val roomDetailConstraints = ConstraintSet {
+    val icon = createRefFor(LayoutId.Icon)
+    val capacity = createRefFor(LayoutId.Capacity)
+    val desc = createRefFor(LayoutId.Description)
+    val add = createRefFor(LayoutId.AddEmployeeCard)
+    val button = createRefFor(LayoutId.Button)
+    val feature = createRefFor(LayoutId.Feature)
+
+    constrain(icon) {
+        start.linkTo(parent.start)
+        top.linkTo(parent.top)
+    }
+    constrain(capacity) {
+        end.linkTo(parent.end, 10.dp)
+        top.linkTo(feature.bottom, 10.dp)
+    }
+    constrain(desc) {
+        start.linkTo(parent.start)
+        top.linkTo(icon.bottom, 50.dp)
+    }
+    constrain(add) {
+        start.linkTo(parent.start)
+        end.linkTo(parent.end)
+        top.linkTo(desc.bottom, 60.dp)
+    }
+    constrain(button) {
+        start.linkTo(parent.start)
+        end.linkTo(parent.end)
+        bottom.linkTo(parent.bottom, 30.dp)
+    }
+    constrain(feature) {
+        end.linkTo(parent.end)
+        top.linkTo(parent.top)
     }
 }
 
@@ -58,53 +104,37 @@ private fun RoomView(
     onEvictButtonClick: () -> Unit,
 ) {
     ConstraintLayout(
+        roomDetailConstraints,
         modifier = modifier
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        val (
-            iconRef,
-            capacityRef,
-            descriptionRef,
-            addEmployeeRef,
-            evictBtnRef,
-        ) = createRefs()
-        RoomIcon(modifier = Modifier
-            .constrainAs(iconRef) {
-                start.linkTo(parent.start)
-                top.linkTo(parent.top)
-            }
-            .size(100.dp),
-            roomType = room.type)
-        LabelValue(Modifier.constrainAs(capacityRef) {
-            end.linkTo(parent.end, 10.dp)
-            top.linkTo(iconRef.top)
-        }, "capacity", "${room.count}/${room.capacity}")
-        Text(text = roomDescription(room.type),
-            fontSize = 20.sp,
+        RoomIcon(
+            modifier = Modifier
+                .layoutId(LayoutId.Icon)
+                .size(80.dp),
+            roomType = room.type
+        )
+        CfDropDownButton(
+            Modifier.layoutId(LayoutId.Feature),
+            "Voice"
+
+        )
+        LabelValue(
+            Modifier.layoutId(LayoutId.Capacity),
+            "capacity", "${room.count}/${room.capacity}"
+        )
+        Text(
+            text = roomDescription(room.type),
             color = colorScheme.onBackground,
-            modifier = Modifier.constrainAs(descriptionRef) {
-                start.linkTo(parent.start)
-                top.linkTo(iconRef.bottom, 30.dp)
-            })
-        AddEmployeeCard(modifier = Modifier.constrainAs(addEmployeeRef) {
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            top.linkTo(descriptionRef.bottom, 60.dp)
-        })
-        ElevatedButton(
+            modifier = Modifier.layoutId(LayoutId.Description)
+        )
+        AddEmployeeCard(Modifier.layoutId(LayoutId.AddEmployeeCard))
+        CfErrorButton(
+            modifier = Modifier.layoutId(LayoutId.Button),
+            text = "Evict Room",
             onClick = { onEvictButtonClick() },
-            modifier = Modifier.constrainAs(evictBtnRef) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom, 30.dp)
-            }) {
-            Text(
-                text = "Evict Room",
-                fontSize = 20.sp,
-                color = colorScheme.errorContainer
-            )
-        }
+        )
     }
 }
 

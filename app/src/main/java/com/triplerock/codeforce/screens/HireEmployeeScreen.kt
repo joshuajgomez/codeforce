@@ -77,7 +77,7 @@ fun CandidateListContainer(modifier: Modifier) {
 
         CfLargeButton("Hire")
 
-        CfErrorButton("Reject all")
+        CfErrorButton(text = "Reject all")
     }
 }
 

@@ -327,12 +327,14 @@ fun CfLargeButton(
 
 @Composable
 fun CfButton(
+    modifier: Modifier = Modifier,
     text: String = "Click",
     textColor: Color = colorScheme.primary,
     backgroundColor: Color = colorScheme.primaryContainer,
     onClick: () -> Unit = {}
 ) {
     CfButton(
+        modifier,
         onClick = onClick,
         backgroundColor = backgroundColor,
         content = {
@@ -347,13 +349,14 @@ fun CfButton(
 
 @Composable
 fun CfButton(
+    modifier: Modifier = Modifier,
     backgroundColor: Color = colorScheme.primaryContainer,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit,
     content: @Composable RowScope.() -> Unit = {},
 ) {
     ElevatedButton(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .height(50.dp),
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.elevatedButtonColors(
@@ -365,8 +368,13 @@ fun CfButton(
 
 
 @Composable
-fun CfErrorButton(text: String = "Error") {
+fun CfErrorButton(
+    modifier: Modifier = Modifier,
+    text: String = "Error",
+    onClick: () -> Unit = {},
+) {
     CfButton(
+        modifier,
         content = {
             Text(
                 text = text,
@@ -376,12 +384,18 @@ fun CfErrorButton(text: String = "Error") {
             )
         },
         backgroundColor = Color.Transparent,
+        onClick = onClick
     )
 }
 
 @Composable
-fun CfDropDownButton(text: String = "Developer") {
+fun CfDropDownButton(
+    modifier: Modifier = Modifier,
+    text: String = "Developer",
+    onClick: () -> Unit = {}
+) {
     CfButton(
+        modifier,
         content = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -400,6 +414,7 @@ fun CfDropDownButton(text: String = "Developer") {
                 )
             }
         },
-        backgroundColor = Color.Transparent
+        backgroundColor = Color.Transparent,
+        onClick = onClick
     )
 }
