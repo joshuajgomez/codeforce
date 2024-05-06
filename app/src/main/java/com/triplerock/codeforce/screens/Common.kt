@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,9 +18,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
@@ -31,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -196,7 +202,7 @@ fun CfCard(
     )
 }
 
-@DarkPreview
+//@DarkPreview
 @Composable
 fun PreviewNumberSelector() {
     CodeForceTheme {
@@ -244,14 +250,14 @@ fun NumberSelector(
     }
 }
 
-@DarkPreview
+//@DarkPreview
 @Composable
 fun PreviewCommonBody() {
     CodeForceTheme {
         Scaffold(
             topBar = { TitleBar() },
         ) {
-            CommonBody(Modifier.padding(it)){
+            CommonBody(Modifier.padding(it)) {
                 Text(text = "CodeForce content")
             }
         }
@@ -268,5 +274,132 @@ fun CommonBody(
             .fillMaxSize()
             .padding(10.dp), color = Black05,
         content = content
+    )
+}
+
+@DarkPreview
+@Composable
+fun PreviewLargeButton() {
+    CodeForceTheme {
+        Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+            CfLargeButton()
+            CfLargeErrorButton()
+            CfButton(text = "Click me")
+            CfErrorButton()
+            CfDropDownButton()
+        }
+    }
+}
+
+@Composable
+fun CfLargeErrorButton(text: String = "Error") {
+    CfLargeButton(
+        text,
+        textColor = colorScheme.onErrorContainer,
+        backgroundColor = colorScheme.errorContainer,
+    )
+}
+
+@Composable
+fun CfLargeButton(
+    text: String = "Click",
+    textColor: Color = colorScheme.primary,
+    backgroundColor: Color = colorScheme.primaryContainer,
+    onClick: () -> Unit = {}
+) {
+    ElevatedButton(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp),
+        shape = RoundedCornerShape(10.dp),
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = backgroundColor
+        )
+    ) {
+        Text(
+            text = text,
+            fontSize = 20.sp,
+            color = textColor
+        )
+    }
+}
+
+@Composable
+fun CfButton(
+    text: String = "Click",
+    textColor: Color = colorScheme.primary,
+    backgroundColor: Color = colorScheme.primaryContainer,
+    onClick: () -> Unit = {}
+) {
+    CfButton(
+        onClick = onClick,
+        backgroundColor = backgroundColor,
+        content = {
+            Text(
+                text = text,
+                fontSize = 20.sp,
+                color = textColor,
+                modifier = Modifier.padding()
+            )
+        })
+}
+
+@Composable
+fun CfButton(
+    backgroundColor: Color = colorScheme.primaryContainer,
+    onClick: () -> Unit = {},
+    content: @Composable RowScope.() -> Unit = {},
+) {
+    ElevatedButton(
+        onClick = onClick,
+        modifier = Modifier
+            .height(50.dp),
+        shape = RoundedCornerShape(10.dp),
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = backgroundColor
+        ),
+        content = content
+    )
+}
+
+
+@Composable
+fun CfErrorButton(text: String = "Error") {
+    CfButton(
+        content = {
+            Text(
+                text = text,
+                color = colorScheme.error,
+                textDecoration = TextDecoration.Underline,
+                fontSize = 20.sp
+            )
+        },
+        backgroundColor = Color.Transparent,
+    )
+}
+
+@Composable
+fun CfDropDownButton(text: String = "Developer") {
+    CfButton(
+        content = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = text, fontSize = 20.sp,
+                    color = colorScheme.onBackground,
+                    fontWeight = FontWeight.Bold
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    tint = colorScheme.onBackground,
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+        },
+        backgroundColor = Color.Transparent
     )
 }

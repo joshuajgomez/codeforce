@@ -2,20 +2,19 @@ package com.triplerock.codeforce.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ElevatedButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
@@ -46,9 +45,12 @@ fun HireEmployeeScreen() {
 fun CandidateListContainer(modifier: Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = modifier.padding(10.dp),
     ) {
+
+        CfDropDownButton()
+
         InfoBox(
             keyValue = hashMapOf(
                 "employees" to "78",
@@ -71,20 +73,9 @@ fun CandidateListContainer(modifier: Modifier) {
             cost = 56600.displayCost(),
             isShowNumberSelector = true
         )
-        ElevatedButton(
-            onClick = { /*TODO*/ }, modifier = Modifier
-        ) {
-            Text(
-                text = "Hire",
-                color = colorScheme.primary
-            )
-        }
-        ElevatedButton(onClick = { /*TODO*/ }) {
-            Text(
-                text = "Reject all",
-                color = colorScheme.error
-            )
-        }
+        Spacer(modifier = Modifier.height(10.dp))
+        CfLargeButton("Hire")
+        CfErrorButton("Reject all")
     }
 }
 
