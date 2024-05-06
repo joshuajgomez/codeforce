@@ -139,13 +139,14 @@ fun TitleBar(
 fun InfoBox(
     modifier: Modifier = Modifier,
     keyValue: HashMap<String, String> = sampleKeyValue,
+    color: Color = Black20,
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = modifier
             .layoutId("capacity")
             .background(
-                Black20,
+                color,
                 RoundedCornerShape(8.dp)
             )
             .padding(horizontal = 10.dp, vertical = 10.dp)
@@ -170,7 +171,7 @@ fun PreviewCustomCard(
                 .background(colorScheme.background)
                 .padding(10.dp)
         ) {
-            CustomCard {
+            CfCard {
                 Text(
                     text = "this is the custom card",
                     Modifier.padding(20.dp)
@@ -181,7 +182,7 @@ fun PreviewCustomCard(
 }
 
 @Composable
-fun CustomCard(
+fun CfCard(
     modifier: Modifier = Modifier,
     color: Color = Black10,
     content: @Composable ColumnScope.() -> Unit = {},
@@ -210,7 +211,7 @@ fun NumberSelector(
     onMinusPress: () -> Unit = {},
     iconSize: Dp = 50.dp,
 ) {
-    CustomCard(
+    CfCard(
         modifier = modifier,
         color = Black20
     ) {
@@ -262,7 +263,7 @@ fun CommonBody(
     modifier: Modifier,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
-    CustomCard(
+    CfCard(
         modifier
             .fillMaxSize()
             .padding(10.dp), color = Black05,

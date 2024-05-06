@@ -115,7 +115,7 @@ fun RoomCard(
     roomType: RoomType = RoomType.Developer,
     onClick: () -> Unit = {},
 ) {
-    CustomCard(modifier = Modifier.padding(5.dp)) {
+    CfCard(modifier = Modifier.padding(5.dp)) {
         var expanded by remember { mutableStateOf(false) }
         ConstraintLayout(
             constraintSet = roomCardConstraintSet(if (expanded) 20.dp else 0.dp),

@@ -49,7 +49,7 @@ fun PreviewEventsViewShort() {
 
 @Composable
 fun EventsViewShort() {
-    CustomCard(
+    CfCard(
         modifier = Modifier.height(150.dp)
     ) {
         EventsList()

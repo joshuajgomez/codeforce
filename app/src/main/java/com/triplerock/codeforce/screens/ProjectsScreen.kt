@@ -178,7 +178,7 @@ fun ProjectCard(
     onSubmitClick: () -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(isExpanded) }
-    CustomCard {
+    CfCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

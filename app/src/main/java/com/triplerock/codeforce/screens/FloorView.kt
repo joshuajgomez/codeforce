@@ -1,6 +1,5 @@
 package com.triplerock.codeforce.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +29,7 @@ private fun PreviewFloorView() {
 
 @Composable
 fun FloorView(rooms: List<Room> = sampleRooms) {
-    CustomCard(
+    CfCard(
         modifier = Modifier,
     ) {
         Box(

@@ -118,7 +118,7 @@ fun PreviewAddEmployeeView(modifier: Modifier = Modifier) {
 
 @Composable
 fun AddEmployeeCard(modifier: Modifier = Modifier) {
-    CustomCard(modifier = modifier) {
+    CfCard(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
