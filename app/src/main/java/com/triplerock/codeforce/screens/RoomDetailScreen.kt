@@ -42,23 +42,25 @@ fun RoomsScreen(
     Scaffold(
         topBar = { TitleBar("${room.type}'s room") },
     ) {
-        RoomView(
-            modifier = Modifier.padding(it),
-            room, onEvictButtonClick
-        )
+        CommonBody(modifier = Modifier.padding(it)) {
+            RoomView(
+                room = room,
+                onEvictButtonClick = onEvictButtonClick
+            )
+        }
     }
 }
 
 @Composable
 private fun RoomView(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     room: Room,
     onEvictButtonClick: () -> Unit,
 ) {
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp)
+            .padding(20.dp)
     ) {
         val (
             iconRef,

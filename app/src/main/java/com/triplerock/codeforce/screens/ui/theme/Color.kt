@@ -1,4 +1,4 @@
-package com.triplerock.codeforce.ui.theme
+package com.triplerock.codeforce.screens.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -12,7 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 val White10 = Color(0xFF4CAF50)
 val Green40 = Color(0xFFFFFFFF)
-val Black10 = Color(0xFF2B2B2B)
+val Black05 = Color(0xFF202020)
+val Black10 = Color(0xFF1B1B1B)
 val Black20 = Color(0xFF3A3A3A)
 val Blue40 = Color(0xFF2196F3)
 val Purple20 = Color(0xFF6650a4)

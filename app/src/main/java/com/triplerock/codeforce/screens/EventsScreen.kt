@@ -18,11 +18,11 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
 import com.triplerock.codeforce.data.Event
 import com.triplerock.codeforce.data.EventType
-import com.triplerock.codeforce.ui.theme.Blue40
+import com.triplerock.codeforce.screens.ui.theme.Blue40
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
-import com.triplerock.codeforce.ui.theme.Gray10
-import com.triplerock.codeforce.ui.theme.Green40
-import com.triplerock.codeforce.ui.theme.Orange10
+import com.triplerock.codeforce.screens.ui.theme.Gray10
+import com.triplerock.codeforce.screens.ui.theme.Green40
+import com.triplerock.codeforce.screens.ui.theme.Orange10
 
 @DarkPreview
 @Composable

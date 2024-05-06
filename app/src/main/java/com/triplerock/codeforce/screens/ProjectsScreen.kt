@@ -46,13 +46,13 @@ import com.triplerock.codeforce.data.sampleFeatureList
 import com.triplerock.codeforce.data.sampleProjectNames
 import com.triplerock.codeforce.data.sampleRewards
 import com.triplerock.codeforce.data.totalCw
-import com.triplerock.codeforce.ui.theme.Blue40
+import com.triplerock.codeforce.screens.ui.theme.Blue40
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
-import com.triplerock.codeforce.ui.theme.Gray10
-import com.triplerock.codeforce.ui.theme.Green40
-import com.triplerock.codeforce.ui.theme.Orange10
-import com.triplerock.codeforce.ui.theme.Teal10
-import com.triplerock.codeforce.ui.theme.White10
+import com.triplerock.codeforce.screens.ui.theme.Gray10
+import com.triplerock.codeforce.screens.ui.theme.Green40
+import com.triplerock.codeforce.screens.ui.theme.Orange10
+import com.triplerock.codeforce.screens.ui.theme.Teal10
+import com.triplerock.codeforce.screens.ui.theme.White10
 
 @DarkPreview
 @Composable
@@ -91,7 +91,7 @@ fun AllProjects(
         sampleProject(),
         sampleProject(),
         sampleProject(),
-    )
+    ),
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -175,7 +175,7 @@ private fun expandedProjectCardConstraints(): ConstraintSet {
 fun ProjectCard(
     project: Project = sampleProject(),
     isExpanded: Boolean = false,
-    onSubmitClick: () -> Unit = {}
+    onSubmitClick: () -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(isExpanded) }
     CustomCard {
@@ -230,7 +230,7 @@ fun ProjectCard(
 @Composable
 fun ProjectDetail(
     project: Project,
-    onSubmitClick: () -> Unit = {}
+    onSubmitClick: () -> Unit = {},
 ) {
     ConstraintLayout(
         expandedProjectCardConstraints(),
@@ -315,7 +315,7 @@ fun State(modifier: Modifier = Modifier, project: Project) {
 @Composable
 fun FeatureTags(
     modifier: Modifier = Modifier,
-    featureRequirements: List<FeatureRequirement> = sampleFeatureList
+    featureRequirements: List<FeatureRequirement> = sampleFeatureList,
 ) {
     LazyRow(
         modifier = modifier,
