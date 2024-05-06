@@ -53,33 +53,35 @@ fun CandidateListContainer(modifier: Modifier) {
 
         InfoBox(
             keyValue = hashMapOf(
-                "employees" to "78",
+                "idle developers" to "7/60",
                 "cash balance" to 7800000.displayCost(),
                 "candidates" to "36",
             ),
             color = colorScheme.background
         )
         HireCard(
-            "Accept one",
+            "Hire one candidate",
             cost = "${3000.displayCost()} / pax",
             isSelected = true,
         )
         HireCard(
-            "Accept all (46)",
+            "Hire all candidates (46)",
             cost = 56600.displayCost()
         )
         HireCard(
-            "Accept some",
+            "Select number to hire",
             cost = 56600.displayCost(),
             isShowNumberSelector = true
         )
         Spacer(modifier = Modifier.height(10.dp))
+
         CfLargeButton("Hire")
+
         CfErrorButton("Reject all")
     }
 }
 
-val hireCardConstraints = ConstraintSet {
+fun hireCardConstraints(isShowNumberSelector: Boolean) = ConstraintSet {
     val label = createRefFor("label")
     val cost = createRefFor("cost")
     val radio = createRefFor("radio")
@@ -90,9 +92,19 @@ val hireCardConstraints = ConstraintSet {
         top.linkTo(parent.top)
     }
 
-    constrain(cost) {
-        start.linkTo(parent.start)
-        bottom.linkTo(parent.bottom)
+    if (isShowNumberSelector) {
+        constrain(selector) {
+            top.linkTo(label.bottom, 15.dp)
+        }
+        constrain(cost) {
+            start.linkTo(parent.start)
+            top.linkTo(selector.bottom, 10.dp)
+        }
+    } else {
+        constrain(cost) {
+            start.linkTo(parent.start)
+            top.linkTo(label.bottom, 10.dp)
+        }
     }
 
     constrain(radio) {
@@ -101,27 +113,21 @@ val hireCardConstraints = ConstraintSet {
         bottom.linkTo(parent.bottom)
     }
 
-    constrain(selector) {
-        start.linkTo(parent.start)
-        top.linkTo(label.bottom, 10.dp)
-        bottom.linkTo(cost.top, 10.dp)
-    }
-
 }
 
 @Composable
 fun HireCard(
-    text: String = "Accept one",
+    text: String = "Hire one candidate",
     cost: String = "$ 5000 /  engineer",
     isSelected: Boolean = false,
     isShowNumberSelector: Boolean = false,
 ) {
     CfCard {
         ConstraintLayout(
-            hireCardConstraints,
+            hireCardConstraints(isShowNumberSelector),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(10.dp),
         ) {
             Text(
                 text = text,
