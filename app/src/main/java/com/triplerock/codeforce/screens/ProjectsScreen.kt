@@ -71,13 +71,17 @@ fun ProjectsScreen() {
 
 @Composable
 fun ProjectsView(modifier: Modifier) {
-    Column(modifier) {
-        Column(
-            horizontalAlignment = Alignment.End,
-            modifier = Modifier.fillMaxWidth()
+    Column(
+        modifier.padding(horizontal = 15.dp),
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        FilterTags(
+            ProjectState.entries.map { it.name } + "ALL",
+            ProjectState.NEW.name
         ) {
-            CfDropDownButton(text = "All")
+
         }
+        Spacer(modifier = Modifier.height(20.dp))
         ProjectsList()
     }
 }
@@ -102,7 +106,6 @@ fun ProjectsList(
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = modifier.padding(horizontal = 10.dp)
     ) {
         projects
             .sortedBy { it.state }
@@ -220,7 +223,7 @@ fun ProjectCard(
                     contentDescription = null,
                     modifier = Modifier
                         .layoutId("customer_logo")
-                        .size(60.dp)
+                        .size(50.dp)
                         .background(colorScheme.onPrimary, RoundedCornerShape(10.dp))
                 )
                 State(

@@ -1,8 +1,11 @@
 package com.triplerock.codeforce.screens
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -19,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -44,11 +48,14 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.layoutId
 import com.triplerock.codeforce.R
+import com.triplerock.codeforce.data.Project
+import com.triplerock.codeforce.data.ProjectState
 import com.triplerock.codeforce.data.RoomType
 import com.triplerock.codeforce.screens.ui.theme.Black05
 import com.triplerock.codeforce.screens.ui.theme.Black10
 import com.triplerock.codeforce.screens.ui.theme.Black20
 import com.triplerock.codeforce.ui.theme.CodeForceTheme
+import java.util.logging.Filter
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 annotation class DarkPreview
@@ -167,7 +174,7 @@ fun InfoBox(
     }
 }
 
-@DarkPreview
+//@DarkPreview
 @Composable
 fun PreviewCustomCard() {
     CodeForceTheme {
@@ -419,4 +426,71 @@ fun CfDropDownButton(
         backgroundColor = Color.Transparent,
         onClick = onClick
     )
+}
+
+@DarkPreview
+@Composable
+fun PreviewFilterTags() {
+    CodeForceTheme {
+        FilterTags(
+            ProjectState.entries.map { it.name },
+            ProjectState.NEW.name
+        ) {
+
+        }
+    }
+}
+
+@Composable
+fun FilterTags(
+    tagList: List<String>,
+    selectedTag: String,
+    onNameClick: (name: String) -> Unit
+) {
+    Row(Modifier.fillMaxWidth()) {
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            items(tagList) {
+                FilterTag(it, selectedTag == it) {
+                    onNameClick(it)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FilterTag(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        Modifier
+            .clickable { onClick() }
+            .background(
+                if (isSelected) colorScheme.primaryContainer
+                else Color.Transparent,
+                RoundedCornerShape(20.dp)
+            )
+            .border(
+                width = 1.dp,
+                color = colorScheme.outlineVariant,
+                shape = RoundedCornerShape(20.dp)
+            )
+            .padding(horizontal = 15.dp, vertical = 5.dp)
+    ) {
+        AnimatedVisibility(visible = isSelected) {
+            Icon(
+                imageVector = Icons.Default.FilterList,
+                contentDescription = null,
+                tint = colorScheme.onBackground,
+                modifier = Modifier.padding(end = 10.dp)
+            )
+        }
+        Text(
+            text = text,
+            color = if (isSelected) colorScheme.onBackground
+            else colorScheme.outline
+        )
+    }
 }
